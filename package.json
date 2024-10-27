@@ -1,0 +1,13 @@
+{
+  "name": "arriveCalculator",
+  "version": "1.0.0",
+  "main": "app.js",
+  "author": "itsraihan",
+  "license": "MIT",
+  "scripts": {
+    "dev": "nodemon src/app.cjs"
+  },
+  "dependencies": {
+    "express": "^4.21.1"
+  }
+}
