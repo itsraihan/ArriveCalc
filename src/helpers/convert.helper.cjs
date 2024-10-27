@@ -11,8 +11,22 @@ function convertToTimeFormat(seconds) {
   return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(remainingSeconds).padStart(2, '0')}`;
 }
 
+function timeToSeconds(hours, minutes, seconds) {
+  return hours * 3600 + minutes * 60 + seconds;
+}
+
+// Fungsi untuk mengonversi detik total menjadi format jam:menit:detik
+function secondsToTime(seconds) {
+  const hours = Math.floor(seconds / 3600) % 24;
+  const minutes = Math.floor((seconds % 3600) / 60);
+  const remainingSeconds = seconds % 60;
+  return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(remainingSeconds).padStart(2, '0')}`;
+}
+
 
 module.exports = {
   convertToSeconds,
-  convertToTimeFormat
+  convertToTimeFormat,
+  timeToSeconds,
+  secondsToTime
 }

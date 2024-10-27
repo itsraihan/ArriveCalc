@@ -1,34 +1,28 @@
-const { convertToTimeFormat, convertToSeconds } = require("../helpers/convert.helper.cjs");
+const { convertToTimeFormat, convertToSeconds, timeToSeconds, secondsToTime } = require("../helpers/convert.helper.cjs");
 
 
 exports.calculateTravelDuration = (req, res) => {
-  const { departure, arrival } = req.body;
+  const { startTime, durationInSeconds } = req.body;
 
-  // Validate input
-  if (!departure || !arrival) {
-      return res.status(400).json({ error: 'Please provide both departure and arrival times in hh:mm:ss format.' });
-  }
+    if (!startTime || !durationInSeconds) {
+        return res.status(400).json({ message: 'Input tidak valid. Masukkan startTime dan durationInSeconds.' });
+    }
 
-  const [depHours, depMinutes, depSeconds] = departure.split(':').map(Number);
-  const [arrHours, arrMinutes, arrSeconds] = arrival.split(':').map(Number);
+    const [startHour, startMinute, startSecond] = startTime.split(':').map(Number);
+    const travelDuration = Number(durationInSeconds);
 
-  // Convert time to seconds
-  const depTimeInSeconds = convertToSeconds(depHours, depMinutes, depSeconds);
-  const arrTimeInSeconds = convertToSeconds(arrHours, arrMinutes, arrSeconds);
+    if (
+        isNaN(startHour) || isNaN(startMinute) || isNaN(startSecond) ||
+        isNaN(travelDuration)
+    ) {
+        return res.status(400).json({ message: 'Input waktu tidak valid.' });
+    }
 
-  // Calculate duration in seconds
-  let durationInSeconds;
-  if (arrTimeInSeconds >= depTimeInSeconds) {
-      // Arrival is on the same day or later in the day
-      durationInSeconds = arrTimeInSeconds - depTimeInSeconds;
-  } else {
-      // Arrival is on the next day
-      durationInSeconds = (24 * 3600 - depTimeInSeconds) + arrTimeInSeconds;
-  }
+    const startInSeconds = timeToSeconds(startHour, startMinute, startSecond);
+    
+    const arrivalInSeconds = (startInSeconds + travelDuration) % 86400; // 86400 detik dalam satu hari
 
-  // Convert back to hh:mm:ss format
-  const travelDuration = convertToTimeFormat(durationInSeconds);
+    const arrivalTime = secondsToTime(arrivalInSeconds);
 
-  // Send the result
-  res.json({ travelDuration });
+    res.json({ arrivalTime });
 }
