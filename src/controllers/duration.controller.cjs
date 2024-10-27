@@ -2,7 +2,7 @@ const { convertToTimeFormat, convertToSeconds, timeToSeconds, secondsToTime } = 
 
 
 exports.calculateTravelDuration = (req, res) => {
-  const { startTime, durationInSeconds } = req.body;
+  const { startTime, durationInSeconds } = req.query;
 
     if (!startTime || !durationInSeconds) {
         return res.status(400).json({ message: 'Input tidak valid. Masukkan startTime dan durationInSeconds.' });

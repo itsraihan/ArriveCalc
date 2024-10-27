@@ -3,6 +3,6 @@ const { calculateArrivalTime } = require('../controllers/time.controller.cjs');
 const timeRouter = express.Router();
 
 
-timeRouter.post('/', calculateArrivalTime);
+timeRouter.get('/', calculateArrivalTime);
 
 module.exports = timeRouter;

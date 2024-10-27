@@ -1,7 +1,7 @@
 const { convertToSeconds, convertToTimeFormat } = require("../helpers/convert.helper.cjs");
 
 exports.calculateArrivalTime = (req, res) => {
-  const { departure, arrival } = req.body;
+    const { departure, arrival } = req.query;
 
     if (!departure || !arrival) {
         return res.status(400).json({ error: 'Harap berikan waktu keberangkatan dan waktu kedatangan dalam format hh:mm:ss.' });
